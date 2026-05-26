@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import Script from "next/script";
 import { Suspense } from "react";
 import { Toaster } from "sonner";
+import { AuthSessionProvider } from "@/components/auth-session-provider";
 import { AppSidebar } from "@/components/chat/app-sidebar";
 import { DataStreamProvider } from "@/components/chat/data-stream-provider";
 import { ChatShell } from "@/components/chat/shell";
@@ -11,7 +12,7 @@ import { auth } from "../(auth)/auth";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <AuthSessionProvider>
       <Script
         src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"
         strategy="lazyOnload"
@@ -21,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <SidebarShell>{children}</SidebarShell>
         </Suspense>
       </DataStreamProvider>
-    </>
+    </AuthSessionProvider>
   );
 }
 
