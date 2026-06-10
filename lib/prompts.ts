@@ -3,6 +3,7 @@ export const validModes = [
   'rfi',
   'deficiency',
   'site-report',
+  'site-instruction',
   'code-checker',
   'email',
 ] as const;
@@ -39,6 +40,11 @@ Structure with: Deficiency Description, Location, Standard/Requirement Reference
   'site-report': `${baseRules}
 Task: Generate site report wording only.
 Structure with: Date/Visit Summary (if provided), Observations, Risks/Constraints, Actions Taken, Next Steps.
+`,
+  'site-instruction': `${baseRules}
+Task: Generate site instruction wording only.
+Structure with: Instruction Title, Background/Reason, Specific Direction, Location/Scope, Required Action, Timing, and References (only if provided).
+Make the instruction direct and contract-administration appropriate without inventing authority, commitments, costs, or schedule impacts.
 `,
   'code-checker': `${baseRules}
 Task: Perform code citation check wording only when code/context is provided.
