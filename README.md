@@ -1,71 +1,226 @@
-<a href="https://chatbot.ai-sdk.dev/demo">
-  <img alt="Chatbot" src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chatbot</h1>
-</a>
+# Workplace Operations AI Assistant
 
-<p align="center">
-    Chatbot (formerly AI Chatbot) is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications.
-</p>
+An internal AI-powered engineering operations platform designed to streamline documentation workflows including SRRs, RFIs, deficiency reports, site reports, code citation checks, and professional email generation.
 
-<p align="center">
-  <a href="https://chatbot.ai-sdk.dev/docs"><strong>Read Docs</strong></a> ·
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a>
-</p>
-<br/>
+Built with modern web technologies and powered by Gemini Flash for fast, cost-effective AI-assisted document drafting.
+
+---
 
 ## Features
 
-- [Next.js](https://nextjs.org) App Router
-  - Advanced routing for seamless navigation and performance
-  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
-- [AI SDK](https://ai-sdk.dev/docs/introduction)
-  - Unified API for generating text, structured objects, and tool calls with LLMs
-  - Hooks for building dynamic chat and generative user interfaces
-  - Supports OpenAI, Anthropic, Google, xAI, and other model providers via AI Gateway
-- [shadcn/ui](https://ui.shadcn.com)
-  - Styling with [Tailwind CSS](https://tailwindcss.com)
-  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+### AI Documentation Tools
+- SRR Generator
+- RFI Generator
+- Deficiency Report Generator
+- Site Report Generator
+- Code Citation Assistant
+- Email Draft Generator
 
-## Model Providers
+### Smart Workflow Design
+- Structured form inputs
+- Rough-notes-to-professional-language conversion
+- Mode-specific AI prompting
+- Copy-to-clipboard output
+- Loading and error states
+- Reusable UI components
+- Centralized prompt management
 
-This template uses the [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) to access multiple AI models through a unified interface. Models are configured in `lib/ai/models.ts` with per-model provider routing. Included models: Mistral, Moonshot, DeepSeek, OpenAI, and xAI.
+### Engineering-Focused AI Behavior
+- Professional construction and engineering tone
+- Prevents hallucinated project data
+- Requests missing information where necessary
+- Supports future integration with Ontario Building Code references
+- Designed for human review before submission
 
-### AI Gateway Authentication
+---
 
-**For Vercel deployments**: Authentication is handled automatically via OIDC tokens.
+# Tech Stack
 
-**For non-Vercel deployments**: You need to provide an AI Gateway API key by setting the `AI_GATEWAY_API_KEY` environment variable in your `.env.local` file.
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js App Router |
+| Backend | Node.js |
+| AI Provider | Gemini Flash API |
+| Styling | Tailwind CSS |
+| Language | TypeScript |
+| Hosting | Vercel-ready |
+| Environment | `.env.local` configuration |
 
-With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to direct LLM providers like [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://ai-sdk.dev/providers/ai-sdk-providers) with just a few lines of code.
+---
 
-## Deploy Your Own
-
-You can deploy your own version of Chatbot to Vercel with one click:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/templates/next.js/chatbot)
-
-## Running locally
-
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
+# Project Structure
 
 ```bash
-pnpm install
-pnpm db:migrate # Setup database or apply latest database changes
-pnpm dev
+app/
+├── api/
+│   └── gemini/
+│       └── route.ts
+├── srr/
+├── rfi/
+├── deficiency/
+├── site-report/
+├── code-checker/
+├── email/
+└── page.tsx
+
+components/
+├── DashboardCard.tsx
+├── OutputBox.tsx
+└── ToolForm.tsx
+
+lib/
+└── prompts.ts
 ```
 
-Your app template should now be running on [localhost:3000](http://localhost:3000).
+---
+
+# Getting Started
+
+## 1. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd <project-name>
+```
+
+---
+
+## 2. Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 3. Configure Environment Variables
+
+Create:
+
+```bash
+.env.local
+```
+
+Add:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+Get a Gemini API key here:
+
+https://aistudio.google.com/app/apikey
+
+---
+
+## 4. Start Development Server
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# AI Architecture
+
+The application uses a mode-based prompting system.
+
+Each page sends a specific mode to the backend API route:
+
+```ts
+{
+  mode: "srr",
+  notes: "...",
+  formData: {...}
+}
+```
+
+The backend selects a dedicated system prompt from:
+
+```text
+lib/prompts.ts
+```
+
+This keeps each tool specialized and focused.
+
+---
+
+# Example Workflow
+
+```text
+User enters rough site notes
+→ Gemini processes structured prompt
+→ AI generates professional wording
+→ User reviews output
+→ Copy/export into company workflow
+```
+
+---
+
+# Example SRR Input
+
+```text
+RTU-2 installed with incorrect duct connection.
+Clearance may not meet access requirements.
+```
+
+# Example Output
+
+```text
+Observation:
+RTU-2 ductwork installation does not appear to match the coordinated mechanical drawing set.
+
+Recommended Action:
+Contractor to review installation and confirm compliance with approved drawings and required service clearances prior to project closeout.
+```
+
+---
+
+# Future Improvements
+
+- PDF upload + OCR
+- Ontario Building Code retrieval system
+- Vector database for code search
+- Drawing review workflows
+- Authentication system
+- User/project management
+- SharePoint integration
+- Word/PDF export generation
+- AI-assisted drawing markup
+- Historical SRR knowledge base
+
+---
+
+# Safety & Review Policy
+
+This platform is designed as:
+- an AI drafting assistant
+- not a replacement for engineering review
+
+All generated outputs should be reviewed by qualified personnel before submission or issuance.
+
+---
+
+# Development Notes
+
+## Current Focus
+- Internal workflow acceleration
+- Professional formatting consistency
+- Rapid document generation
+- Modular AI tool architecture
+
+## Recommended Next Steps
+- Add rate limiting
+- Add authentication
+- Add usage logging
+- Add document templates
+- Add retrieval-augmented code search
+
+---
+
